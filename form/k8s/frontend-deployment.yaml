@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: form-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: form-frontend
+  template:
+    metadata:
+      labels:
+        app: form-frontend
+    spec:
+      containers:
+        - name: form-frontend
+          image: mharis3008/form-frontend-image:latest
+          ports:
+            - containerPort: 3000
+---           
+apiVersion: v1
+kind: Service
+metadata:
+  name: form-frontend
+spec:
+  type: NodePort
+  selector:
+    app: form-frontend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30080   

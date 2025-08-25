@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo
+    volumes: 
+      - mongo-data:/data/db
+    networks:
+      - form-net
+    ports:
+      - "27017:27017"
+
+  backend:
+    image: mharis3008/form-backend-image:latest
+    ports:
+      - "5000:5000"
+    networks:
+      - form-net
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  frontend:
+    image: mharis3008/form-frontend-image:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - form-net
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  mongo-data:
+    external: true
+
+networks:
+  form-net:
+    driver: overlay
