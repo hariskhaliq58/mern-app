@@ -46,7 +46,10 @@ jobs:
 
       # 6. Write kubeconfig from GitHub Secret
       - name: Write kubeconfig
-        run: echo "${{ secrets.KUBECONFIG_PROD }}" > $KUBECONFIG_FILE
+        run: |
+         printf "%s" "${{ secrets.KUBECONFIG_PROD }}" > $KUBECONFIG_FILE
+
+         
 
       # 7. Deploy to Kubernetes
       - name: Deploy to Kubernetes
